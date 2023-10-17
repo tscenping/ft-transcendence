@@ -1,0 +1,3 @@
+[submodule "api-gateway"]
+	path = api-gateway
+	url = git@github.com:haku-transcendence/api-gateway.git
