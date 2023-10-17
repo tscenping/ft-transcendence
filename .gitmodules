@@ -4,3 +4,6 @@
 [submodule "web"]
 	path = web
 	url = git@github.com:haku-transcendence/web.git
+[submodule "FE"]
+	path = FE
+	url = git@github.com:haku-transcendence/FE.git
