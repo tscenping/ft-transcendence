@@ -7,3 +7,6 @@
 [submodule "FE"]
 	path = FE
 	url = git@github.com:haku-transcendence/FE.git
+[submodule "config"]
+	path = config
+	url = git@github.com:haku-transcendence/config.git
