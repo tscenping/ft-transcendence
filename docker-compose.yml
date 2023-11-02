@@ -1,41 +1,21 @@
 version: '3.8'
 services:
-#  api-gateway:
-#    build:
-#      context: ./api-gateway
-#      dockerfile: Dockerfile
-#    container_name: api-gateway
-#    ports:
-#      - '3000:3000'
-#    volumes:
-#      - ./api-gateway/src:/app/src
-#    restart: always
-#    networks:
-#      - api-gateway-network
-#    depends_on:
-#      - api-gateway-db
-#
-#  api-gateway-db:
-#    image: postgres:latest
-#    container_name: api-gateway-postgres
-#    env_file: ./api-gateway/api-gateway-config/api-gateway.env
-#    ports:
-#      - '5432:5432'
-#    volumes:
-#      - /${HOME}/data/postgres:/var/lib/postgresql/data
-#    restart: always
-#    networks:
-#      - api-gateway-network
-#
-#  api-gateway-pgadmin:
-#    container_name: api-gateway-pgadmin4
-#    image: dpage/pgadmin4
-#    env_file: ./api-gateway/api-gateway-config/api-gateway.env
-#    ports:
-#      - '8080:80'
-#    restart: always
-#    depends_on:
-#      - api-gateway-db
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./api-gateway/src:/app/src
+    restart: always
+    networks:
+      - default
+    depends_on:
+      - shared-db
+    env_file:
+      - ./api-gateway/api-gateway-config/.env
 
   web:
     build:
@@ -48,21 +28,24 @@ services:
       - ./web/src:/app/src
     restart: always
     networks:
-      - web-network
+      - default
     depends_on:
-      - web-db
+      - shared-db
+    env_file:
+      - ./web/web-config/.env
 
-  web-db:
+  shared-db:
     image: postgres:latest
-    container_name: web-postgres
-    env_file: ./web/web-config/web.env
+    container_name: shared-db
+    env_file:
+      - ./api-gateway/api-gateway-config/.env
     ports:
-      - '5433:5432'
+      - '5432:5432'
     volumes:
-      - /${HOME}/data/postgres:/var/lib/postgresql/data
+      - shared-data:/var/lib/postgresql/data
     restart: always
     networks:
-      - web-network
+      - default
 
 #  web-pgadmin:
 #    container_name: web-pgadmin4
@@ -75,7 +58,10 @@ services:
 #      - web-db
 
 networks:
-#  api-gateway-network:
-#    driver: bridge
-  web-network:
+  # chat-network:
+  #   driver: bridge
+  default:
     driver: bridge
+
+volumes:
+  shared-data:
