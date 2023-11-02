@@ -47,15 +47,15 @@ services:
     networks:
       - default
 
-#  web-pgadmin:
-#    container_name: web-pgadmin4
-#    image: dpage/pgadmin4
-#    env_file: ./web/web-config/web.env
-#    ports:
-#      - '8081:80'
-#    restart: always
-#    depends_on:
-#      - web-db
+  shared-pgadmin:
+    container_name: shared-pgadmin4
+    image: dpage/pgadmin4
+    env_file: ./web/web-config/.env
+    ports:
+      - '8081:80'
+    restart: always
+    depends_on:
+      - shared-db
 
 networks:
   # chat-network:
