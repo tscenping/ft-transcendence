@@ -1,3 +1,6 @@
 [submodule "FE"]
 	path = FE
 	url = git@github.com:haku-transcendence/FE.git
+[submodule "BE"]
+	path = BE
+	url = git@github.com:tscenping/BE.git
