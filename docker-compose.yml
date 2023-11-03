@@ -5,6 +5,8 @@ services:
       context: ./api-gateway
       dockerfile: Dockerfile
     container_name: api-gateway
+    env_file:
+      - ./api-gateway/api-gateway-config/.env
     ports:
       - '3000:3000'
     volumes:
@@ -14,14 +16,14 @@ services:
       - default
     depends_on:
       - shared-db
-    env_file:
-      - ./api-gateway/api-gateway-config/.env
 
   web:
     build:
       context: ./web
       dockerfile: Dockerfile
     container_name: web
+    env_file:
+      - ./web/web-config/.env
     ports:
       - '3001:3000'
     volumes:
@@ -31,8 +33,6 @@ services:
       - default
     depends_on:
       - shared-db
-    env_file:
-      - ./web/web-config/.env
 
   shared-db:
     image: postgres:latest
@@ -47,19 +47,7 @@ services:
     networks:
       - default
 
-  shared-pgadmin:
-    container_name: shared-pgadmin4
-    image: dpage/pgadmin4
-    env_file: ./web/web-config/.env
-    ports:
-      - '8081:80'
-    restart: always
-    depends_on:
-      - shared-db
-
 networks:
-  # chat-network:
-  #   driver: bridge
   default:
     driver: bridge
 
