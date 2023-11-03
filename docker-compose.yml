@@ -1,44 +1,27 @@
 version: '3.8'
 services:
-  api-gateway:
+  backend:
     build:
-      context: ./api-gateway
+      context: ./BE
       dockerfile: Dockerfile
-    container_name: api-gateway
+    container_name: backend
     env_file:
-      - ./api-gateway/api-gateway-config/.env
+      - ./BE/BE-config/.env
     ports:
       - '3000:3000'
     volumes:
-      - ./api-gateway/src:/app/src
+      - ./BE/src:/app/src
     restart: always
     networks:
       - default
     depends_on:
-      - shared-db
+      - postgres-db
 
-  web:
-    build:
-      context: ./web
-      dockerfile: Dockerfile
-    container_name: web
-    env_file:
-      - ./web/web-config/.env
-    ports:
-      - '3001:3000'
-    volumes:
-      - ./web/src:/app/src
-    restart: always
-    networks:
-      - default
-    depends_on:
-      - shared-db
-
-  shared-db:
+  postgres-db:
     image: postgres:latest
-    container_name: shared-db
+    container_name: postgres-db
     env_file:
-      - ./api-gateway/api-gateway-config/.env
+      - ./BE/BE-config/.env
     ports:
       - '5432:5432'
     volumes:
