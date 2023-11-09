@@ -5,8 +5,8 @@ services:
       context: ./BE
       dockerfile: Dockerfile
     container_name: backend
-    env_file:
-      - ./BE/BE-config/.env
+    # env_file:
+    #   - ./BE/BE-config/.env
     ports:
       - '3000:3000'
     volumes:
