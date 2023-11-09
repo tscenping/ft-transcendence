@@ -10,7 +10,7 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - ./BE/src:/app/src
+      - ./BE:/app
     restart: always
     networks:
       - default
