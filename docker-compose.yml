@@ -15,7 +15,22 @@ services:
     depends_on:
       - postgres-db
       - redis
-
+  frontend:
+    build:
+      context: ./FE
+      dockerfile: Dockerfile
+    container_name: frontend
+    networks:
+      - default
+    entrypoint: sh -c './wait-for-it.sh backend:3000 -t 420 -- npm run build && npm run start'
+    ports:
+      - "8001:8001"
+    env_file:
+      - ./FE/.env
+    volumes:
+      - shared-data:/var/lib/postgresql/data
+    links:
+      - backend
   postgres-db:
     image: postgres:latest
     container_name: postgres-db
